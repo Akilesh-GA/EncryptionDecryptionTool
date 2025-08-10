@@ -1,4 +1,71 @@
+package com.maven.encryptiondecryptiontool;
+
+// import com.mongodb.client.*;
+// import org.bson.Document;
 import java.util.*;
+
+class User {
+    protected String name;
+    protected String email;
+    private String password;
+    User(String name,String email,String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+}
+
+class Admin extends User {
+    Admin(String name,String email,String password) {
+        super(name,email,password);
+    }
+    public String getName() {
+        return name;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void displayUserDetails() {
+        System.out.println("===========================================\n");
+        System.out.println("Admin Deatils : ");
+        System.out.println("Username : " + getName());
+        System.out.println("Email id : " + getEmail());
+        System.out.println("\n===========================================\n");
+    }
+    public void displayUserPrivilages() {
+        System.out.println("===========================================\n");
+        System.out.println("Admin Privilages : ");
+        System.out.println(" > Database Access ");
+        System.out.println(" > Edit & Modify users Data");
+        System.out.println("\n===========================================\n");
+    }
+}
+
+class Others extends User {
+    Others(String name,String email,String password) {
+        super(name,email,password);
+    }
+    public String getName() {
+        return name;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void displayUserDetails() {
+        System.out.println("===========================================\n");
+        System.out.println("Other User Deatils : ");
+        System.out.println("Username : " + getName());
+        System.out.println("Email id : " + getEmail());
+        System.out.println("\n===========================================\n");
+    }
+    public void displayUserPrivilages() {
+        System.out.println("===========================================\n");
+        System.out.println("Other User Privilages : ");
+        System.out.println(" > Database Access ");
+        System.out.println(" > Only View users Data");
+        System.out.println("\n===========================================\n");
+    }
+}
 
 interface CeaserCipher {
     public void ceaserCipherMethod();
@@ -239,11 +306,88 @@ class XORCipherImpl implements XORCipher {
 
 public class EncryptionDecryptionTool {
     public static void main(String[] args) {
+
+        String name;
+        String email;
+        String password;
+
+        Scanner scan = new Scanner(System.in);
+
         System.out.println("\n===========================================");
         System.out.println("\tENCRYPTION DECRYPTION TOOL");
+        System.out.println("===========================================\n");
+        System.out.print("Enter Username : ");
+        name = scan.nextLine();
+        System.out.print("Enter Email id : ");
+        email = scan.nextLine();
+        System.out.print("Enter Password : ");
+        password = scan.nextLine();
+        System.out.println("\n===========================================");
+
+        /* 
+        String uri = "mongodb://localhost:27017";
+
+        try(MongoClient mongoClient = MongoClients.create(url)) {
+            MongoDatabase database = mongoClient.getDatabase("userDB");
+            MongoCollection<Document> collection = database.getCollection("users");
+            Document userDocument = new Document("name",name).append("email",email).append("password",password);
+            collection.insertOne(userDocument);
+            System.out.println("User Details stored in MongoDB");
+        }
+       */
+
+        String AdminPassword = "akil4";
+        int value = 0;
+
+        try {
+            if(name.toLowerCase().equals("admin") && password.equals(AdminPassword)) {
+                Admin admin = new Admin(name,email,password);
+                do {
+                    System.out.println("1 -> View Admin Details");
+                    System.out.println("2 -> Admin Privilages");
+                    System.out.println("-1 -> Quit Admin");
+                    System.out.println("Enter Value : ");
+                    value = scan.nextInt();
+                    if(value == 1) {
+                        admin.displayUserDetails();
+                    }
+                    else if(value == 2) {
+                        admin.displayUserPrivilages();
+                    }
+                    else if((value < 1 && value != -1) || (value > 3 && value != -1)) {
+                        System.out.println("Invalid Input Passed !");
+                        System.out.println("Enter option range (1 - 2) ");
+                    }
+                } while(value != -1);
+            }
+            else {
+                Others others = new Others(name,email,password);
+                do {
+                    System.out.println("1 -> View User Details");
+                    System.out.println("2 -> User Privilages");
+                    System.out.println("-1 -> Quit User");
+                    System.out.println("Enter Value : ");
+                    value = scan.nextInt();
+                    if(value == 1) {
+                        others.displayUserDetails();
+                    }
+                    else if(value == 2) {
+                        others.displayUserPrivilages();
+                    }
+                    else if((value < 1 && value != -1) || (value > 3 && value != -1)) {
+                        System.out.println("Invalid Input Passed !");
+                        System.out.println("Enter option range (1 - 2) ");
+                    }
+                } while(value != -1);
+            }
+        }
+        catch(Exception e) {
+            System.err.println(e);
+        }
+
         int option = 0;
         int choice = 0;
-        Scanner scan = new Scanner(System.in);
+        
         do {
             System.out.println("===========================================\n");
 
@@ -466,3 +610,4 @@ public class EncryptionDecryptionTool {
         System.out.println("Thank You");
     }
 }
+
