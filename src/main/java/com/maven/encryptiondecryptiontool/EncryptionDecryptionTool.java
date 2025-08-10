@@ -1,7 +1,7 @@
 package com.maven.encryptiondecryptiontool;
 
-// import com.mongodb.client.*;
-// import org.bson.Document;
+import com.mongodb.client.*;
+import org.bson.Document;
 import java.util.*;
 
 class User {
@@ -323,24 +323,15 @@ public class EncryptionDecryptionTool {
         System.out.print("Enter Password : ");
         password = scan.nextLine();
         System.out.println("\n===========================================");
-
-        /* 
-        String uri = "mongodb://localhost:27017";
-
-        try(MongoClient mongoClient = MongoClients.create(url)) {
-            MongoDatabase database = mongoClient.getDatabase("userDB");
-            MongoCollection<Document> collection = database.getCollection("users");
-            Document userDocument = new Document("name",name).append("email",email).append("password",password);
-            collection.insertOne(userDocument);
-            System.out.println("User Details stored in MongoDB");
-        }
-       */
-
-        String AdminPassword = "akil4";
+        
+       //Admin Details
+        String AdminPassword = "admin1466";
+        String AdminMailId = "admin@outlook.com";
         int value = 0;
 
         try {
-            if(name.toLowerCase().equals("admin") && password.equals(AdminPassword)) {
+
+            if(name.trim().toLowerCase().equals("admin") && password.trim().equals(AdminPassword) && email.trim().equals(AdminMailId)) {
                 Admin admin = new Admin(name,email,password);
                 do {
                     System.out.println("1 -> View Admin Details");
@@ -359,6 +350,11 @@ public class EncryptionDecryptionTool {
                         System.out.println("Enter option range (1 - 2) ");
                     }
                 } while(value != -1);
+            }
+            else if((name.trim().toLowerCase().equals("admin")) && !(password.trim().equals(AdminPassword) && email.trim().equals(AdminMailId))) {
+                System.out.println("ALERT: Unauthorized admin access attempt !");
+                System.out.println("Verify your login -> name email and password ");
+                System.exit(0);
             }
             else {
                 Others others = new Others(name,email,password);
@@ -380,9 +376,19 @@ public class EncryptionDecryptionTool {
                     }
                 } while(value != -1);
             }
+
         }
         catch(Exception e) {
             System.err.println(e);
+        }
+
+        String uri = "mongodb://localhost:27017/";
+
+        try(MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase database = mongoClient.getDatabase("maven-project");
+            MongoCollection<Document> collection = database.getCollection("users");
+            Document userDocument = new Document("name",name).append("email",email).append("password",password);
+            collection.insertOne(userDocument);
         }
 
         int option = 0;
