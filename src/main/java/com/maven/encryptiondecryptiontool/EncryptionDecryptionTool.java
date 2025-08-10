@@ -324,7 +324,7 @@ public class EncryptionDecryptionTool {
         password = scan.nextLine();
         System.out.println("\n===========================================");
         
-       //Admin Details
+        //Admin Details
         String AdminPassword = "admin1466";
         String AdminMailId = "admin@outlook.com";
         int value = 0;
@@ -402,16 +402,15 @@ public class EncryptionDecryptionTool {
             System.out.println("2 -> Affine Cipher");
             System.out.println("3 -> Atbash Cipher");
             System.out.println("4 -> XOR Cipher");
-            System.out.println("5 -> Transposition Cipher");
-            System.out.println("-1 -> Quit application");
+            System.out.println("-1 -> Quit Application");
 
             System.out.print("Enter your option : ");
 
             option = scan.nextInt();
 
-            if((option < 1 && option != -1) || (option > 5 && option != 1)) {
+            if((option < 1 && option != -1) || (option > 4 && option != 1)) {
                 System.out.println("Invalid Input Passed !");
-                System.out.println("Enter option range (1 - 5) ");
+                System.out.println("Enter option range (1 - 4) ");
             }
             if(option == -1) {
                 break;
@@ -613,7 +612,5 @@ public class EncryptionDecryptionTool {
             }
         } while(option != -1);
         scan.close();
-        System.out.println("Thank You");
     }
 }
-
